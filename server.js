@@ -22,19 +22,26 @@ app.listen(PORT, function () {
 });
 
 // Array to hold notes
+
 let notes = [];
 
 // Routes
 //======================================
 
-//Sends the user to AJAX page
 app.get("/notes", function (req, res) {
   res.sendFile(path.join(__dirname, "notes.html"));
 });
 
+// Will default to home when not matching route is find
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 });
+
+app.get("/api/notes", function (req, res) {
+  return res.sendFile(path.json(__dirname, "assets/db/db.json"));
+});
+
+//Begins listening to the server
 
 app.listen(PORT, function () {
   console.log("App listening on PORT " + PORT);
