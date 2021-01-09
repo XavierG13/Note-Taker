@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 //Sets up Express app data parsing
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "assets/html")));
+app.use(express.static(path.join(__dirname, "Develop/public")));
 app.use(express.json());
 
 // Array to hold notes
@@ -25,22 +25,22 @@ let notes = [];
 //======================================
 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "notes.html"));
+  res.sendFile(path.join(__dirname, "Develop/public/notes.html"));
 });
 
 // Will default to home when not matching route is find
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "Develop/public/index.html"));
 });
 
 app.get("/api/notes", function (req, res) {
-  return res.sendFile(path.json(__dirname, "assets/db/db.json"));
+  return res.sendFile(path.json(__dirname, "Develop/db/db.json"));
 });
 
 // Takes in JSON notes input
 app.post("/api/notes", function (req, res) {
-  fs.readFile("assets/js/index.js", "utf8", (err, jsonString) => {
+  fs.readFile("Develop/public/assets/js/index.js", "utf8", (err, jsonString) => {
     if (err) {
       console.log("File read failed", err);
       return notes;
