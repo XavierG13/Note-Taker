@@ -46,7 +46,7 @@ app.get("api/notes", function (req, res) {
 
 // POST requests
 
-// Takes in JSON notes input which will then save newNotes to the notesArray
+// Takes in JSON notes input which will then save newNotes noteData which is the db.json
 app.post("/api/notes", function (req, res) {
   if (noteData.length) {
     let newNote = req.body;
