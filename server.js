@@ -19,11 +19,12 @@ app.use(express.json());
 
 // Array to hold notes
 
-let notes = [];
+let notesArray = [];
 
 // Routes
 //======================================
 
+//GET Requests
 app.get("/notes", function (req, res) {
   res.sendFile(path.join(__dirname, "Develop/public/notes.html"));
 });
@@ -34,19 +35,31 @@ app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "Develop/public/index.html"));
 });
 
+// reads the db.json file and returns the parsed data
 app.get("/api/notes", function (req, res) {
-  return res.sendFile(path.json(__dirname, "Develop/db/db.json"));
+  fs.readFileSync(path.json(__dirname, "Develop/db/db.json")).then(function (
+    data
+  ) {
+    return res.json(JSON.parse(data));
+  });
 });
 
-// Takes in JSON notes input
+// POST requests
+// Takes in JSON notes input which will then save newNotes to the notesArray
 app.post("/api/notes", function (req, res) {
-  fs.readFile("Develop/public/assets/js/index.js", "utf8", (err, jsonString) => {
-    if (err) {
-      console.log("File read failed", err);
-      return notes;
+  let newNotes = req.body;
+  fs.readFile(
+    "Develop/public/assets/js/index.js",
+    "utf8",
+    (err, jsonString) => {
+      if (err) {
+        console.log("File read failed", err);
+        return notesArray;
+      }
+      console.log("File data:", jsonString);
+      notesArray.push(newNotes);
     }
-    console.log("File data:", jsonString);
-  });
+  );
 });
 
 //Begins listening to the server
