@@ -35,16 +35,28 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "Develop/public/index.html"));
 });
 
+//======================================
+
+app.get("api/notes", function (req, res) {
+  res.sendFile(path.join(__dirname, "Develop/db/db.json"));
+});
+
 // reads the db.json file and returns the parsed data
-app.get("/api/notes", function (err, res) {
-  let rawData = fs.readFileSync("Develop/db/db.json");
+app.get("/api/notes/:note", function (err, res) {
+  let rawData = fs.readFileSync("Develop/db/db.json", "utf8");
   let note = JSON.parse(rawData);
   console.log(note);
 });
 
 // POST requests
 // Takes in JSON notes input which will then save newNotes to the notesArray
-// app.post();
+// app.post("Develop/public/note.html", function (req, res) {
+//   let newNote = red.body;
+
+//   console.log(newNote);
+
+//   fs.writeFile("Develop/db/db.json");
+// });
 
 //Begins listening to the server
 
