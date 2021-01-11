@@ -31,36 +31,20 @@ app.get("/notes", function (req, res) {
 
 // Will default to home when not matching route is find
 
-app.get("*", function (req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "Develop/public/index.html"));
 });
 
 // reads the db.json file and returns the parsed data
-app.get("/api/notes", function (req, res) {
-  fs.readFileSync(path.json(__dirname, "Develop/db/db.json")).then(function (
-    data
-  ) {
-    return res.json(JSON.parse(data));
-  });
+app.get("/api/notes", function (err, res) {
+  let rawData = fs.readFileSync("Develop/db/db.json");
+  let note = JSON.parse(rawData);
+  console.log(note);
 });
 
 // POST requests
 // Takes in JSON notes input which will then save newNotes to the notesArray
-app.post("/api/notes", function (req, res) {
-  let newNotes = req.body;
-  fs.readFile(
-    "Develop/public/assets/js/index.js",
-    "utf8",
-    (err, jsonString) => {
-      if (err) {
-        console.log("File read failed", err);
-        return notesArray;
-      }
-      console.log("File data:", jsonString);
-      notesArray.push(newNotes);
-    }
-  );
-});
+// app.post();
 
 //Begins listening to the server
 
