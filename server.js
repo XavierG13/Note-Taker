@@ -14,49 +14,48 @@ const PORT = process.env.PORT || 3000;
 //Sets up Express app data parsing
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "Develop/public")));
+app.use(express.static(path.join(__dirname, "./Develop/public")));
 app.use(express.json());
 
-// Array to hold notes
+//Variable
+//======================================
 
-let notesArray = [];
+var noteData = require("./Develop/db/db.json");
 
 // Routes
 //======================================
 
 //GET Requests
+
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/public/notes.html"));
+  res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
 });
 
 // Will default to home when not matching route is find
 
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/public/index.html"));
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
 });
 
+//API GET requests
 //======================================
 
 app.get("api/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/db/db.json"));
-});
-
-// reads the db.json file and returns the parsed data
-app.get("/api/notes/:note", function (err, res) {
-  let rawData = fs.readFileSync("Develop/db/db.json", "utf8");
-  let note = JSON.parse(rawData);
-  console.log(note);
+  res.json(noteData);
 });
 
 // POST requests
+
 // Takes in JSON notes input which will then save newNotes to the notesArray
-// app.post("Develop/public/note.html", function (req, res) {
-//   let newNote = red.body;
+app.post("/api/notes", function (req, res) {
+  if (noteData.length) {
+    let newNote = req.body;
+    console.log(newNote);
+    noteData.push(newNote);
+  }
+});
 
-//   console.log(newNote);
-
-//   fs.writeFile("Develop/db/db.json");
-// });
+//Ajax function which uses the URL of our API to GET the data associated with it
 
 //Begins listening to the server
 
