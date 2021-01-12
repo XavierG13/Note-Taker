@@ -22,7 +22,9 @@ app.use(express.json());
 
 let notesArray = [];
 
-var notesSaved = fs.readFileSync("./Develop/db/db.json:", "utf8");
+//creates a save point for the past notes that have been created and pushed them to the noteArray
+
+var notesSaved = fs.readFileSync("Develop/db/db.json", "utf8");
 if (notesSaved) {
   let pastNotes = JSON.parse(notesSaved);
   notesArray = pastNotes;
@@ -54,14 +56,29 @@ app.get("api/notes", function (req, res) {
 
 // POST requests
 
-// Takes in JSON notes input which will then save newNotes noteData which is the db.json
+// Takes in JSON notes input which will then saveNote to notesArray which is the db.json
 app.post("/api/notes", function (req, res) {
   let saveNote = req.body;
   notesArray.push(saveNote);
   res.json(saveNote);
+  newID();
 
   return console.log("Adding new note: " + saveNote.title);
 });
+
+app.delete("api/notes/", function (req, res) {
+  console.log(req);
+});
+//Functions
+//========================================
+
+function newID() {
+  for (var i = 0; i < notesArray.length; i++) {
+    notesArray[i].id = i;
+
+    return console.log(notesArray);
+  }
+}
 
 //Begins listening to the server
 
