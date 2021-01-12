@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 //Sets up Express app data parsing
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "./Develop/public")));
+app.use(express.static(path.join(__dirname, "Develop/public")));
 app.use(express.json());
 
 //Variable
@@ -38,13 +38,13 @@ if (notesSaved) {
 //GET Requests-
 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
+  res.sendFile(path.join(__dirname, "Develop/public/notes.html"));
 });
 
 // Will default to home when not matching route is find
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
+  res.sendFile(path.join(__dirname, "Develop/public/index.html"));
 });
 
 //API GET requests
@@ -63,20 +63,26 @@ app.post("/api/notes", function (req, res) {
   res.json(saveNote);
   newID();
 
+  fs.writeFileSync(
+    "Develop/db/db.json",
+    JSON.stringify(notesArray, null, 2),
+    function (err) {
+      if (err) throw err;
+    }
+  );
+
+  console.log(notesArray);
   return console.log("Adding new note: " + saveNote.title);
 });
 
-app.delete("api/notes/", function (req, res) {
-  console.log(req);
-});
+app.delete("api/notes/:id", function (req, res) {});
 //Functions
 //========================================
 
+//this function will create an id for each note that is saved
 function newID() {
   for (var i = 0; i < notesArray.length; i++) {
     notesArray[i].id = i;
-
-    return console.log(notesArray);
   }
 }
 
