@@ -20,12 +20,20 @@ app.use(express.json());
 //Variable
 //======================================
 
-var noteData = require("./Develop/db/db.json");
+let notesArray = [];
+
+var notesSaved = fs.readFileSync("./Develop/db/db.json:", "utf8");
+if (notesSaved) {
+  let pastNotes = JSON.parse(notesSaved);
+  notesArray = pastNotes;
+} else {
+  notesArray;
+}
 
 // Routes
 //======================================
 
-//GET Requests
+//GET Requests-
 
 app.get("/notes", function (req, res) {
   res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
@@ -41,21 +49,19 @@ app.get("*", function (req, res) {
 //======================================
 
 app.get("api/notes", function (req, res) {
-  res.json(noteData);
+  return res.json(notesArray);
 });
 
 // POST requests
 
 // Takes in JSON notes input which will then save newNotes noteData which is the db.json
 app.post("/api/notes", function (req, res) {
-  if (noteData.length) {
-    let newNote = req.body;
-    console.log(newNote);
-    noteData.push(newNote);
-  }
-});
+  let saveNote = req.body;
+  notesArray.push(saveNote);
+  res.json(saveNote);
 
-//Ajax function which uses the URL of our API to GET the data associated with it
+  return console.log("Adding new note: " + saveNote.title);
+});
 
 //Begins listening to the server
 
