@@ -28,5 +28,10 @@
     "title": "Xavier",
     "text": "Web Developer",
     "id": 5
+  },
+  {
+    "title": "Delete this note",
+    "text": "Please delete\n",
+    "id": 6
   }
 ]

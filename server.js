@@ -56,7 +56,7 @@ app.get("api/notes", function (req, res) {
 
 // POST requests
 
-// Takes in JSON notes input which will then saveNote to notesArray which is the db.json
+// Takes in JSON notes input which will then saveNote to notesArray which is the db.json will then write the file to the bd.json
 app.post("/api/notes", function (req, res) {
   let saveNote = req.body;
   notesArray.push(saveNote);
@@ -75,7 +75,19 @@ app.post("/api/notes", function (req, res) {
   return console.log("Adding new note: " + saveNote.title);
 });
 
-app.delete("api/notes/:id", function (req, res) {});
+app.delete("api/notes/:id", function (req, res) {
+  let deleteNote = req.params.id;
+  notesArray.splice(deleteNote, 1);
+  newID();
+
+  fs.writeFileSync(
+    "Develop/db/db.json",
+    JSON.stringify(notesArray),
+    function (err) {
+      if (err) throw err;
+    }
+  );
+});
 //Functions
 //========================================
 
