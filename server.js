@@ -24,7 +24,7 @@ let notesArray = [];
 
 //creates a save point for the past notes that have been created and pushed them to the noteArray
 
-var notesSaved = fs.readFileSync("Develop/db/db.json", "utf8");
+var notesSaved = fs.readFileSync("Develop/db/db.json", "UTF-8");
 if (notesSaved) {
   let pastNotes = JSON.parse(notesSaved);
   notesArray = pastNotes;
@@ -70,7 +70,6 @@ app.post("/api/notes", function (req, res) {
       if (err) throw err;
     }
   );
-
   console.log(notesArray);
   return console.log("Adding new note: " + saveNote.title);
 });
