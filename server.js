@@ -81,13 +81,9 @@ app.delete("/api/notes/:id", function (req, res) {
   notesArray.splice(deleteNote, 1);
   newID();
 
-  fs.writeFileSync(
-    "db/db.json",
-    JSON.stringify(notesArray),
-    function (err) {
-      if (err) throw err;
-    }
-  );
+  fs.writeFileSync("db/db.json", JSON.stringify(notesArray), function (err) {
+    if (err) throw err;
+  });
 });
 
 //this function will create an id for each note that is saved
